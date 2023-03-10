@@ -7,23 +7,25 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
-    email = db.Column(db.String(50), nullable=False)
     password = db.Column(db.String(20), nullable=False)
-    favorite = db.relationship('favorite')
-    
-class Favorite(db.Model):
-    __tablename__='favorite'
-    id = db.Column(db.Integer, primary_key=True)
-    pokemon_id = db.Column(db.Integer, db.ForeignKey('pokemon'))
-    name = db.Column(db.String(50), nullable=False)
-    id_user = db.Column(db.Integer, db.ForeignKey('user.id'))
-    
+    email = db.Column(db.String(50), nullable=False)
+
 class Pokemon(db.Model):
     __tablename__='pokemon'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
-    ability = db.relationship('ability')
-    type = db.relationship('type')
+
+class Ability(db.Model):
+    __tablename__='ability'
+    id = db.Column(db.Integer, primary_key=True)
+    ability = db.Column(db.String(50), nullable=False)
+    pokemon_id = db.Column(db.Integer, db.ForeignKey('pokemon.id'))
+
+class Type(db.Model):
+    __tablename__='type'
+    id = db.Column(db.Integer, primary_key=True)
+    type = db.Column(db.String(50), nullable=False)
+    pokemon_id = db.Column(db.Integer, db.ForeignKey('pokemon.id'))
     
 class Feature(db.Model):
     __tablename__='feature'
@@ -31,15 +33,8 @@ class Feature(db.Model):
     height = db.Column(db.Integer, nullable=False)
     weight = db.Column(db.Integer, nullable=False)
     pokemon_id = db.Column(db.Integer, db.ForeignKey('pokemon.id'))
-    pokemon = db.relationship('pokemon')
 
-class Ability(db.Model):
-    __tablename__='ability'
-    id = db.Column(db.Integer, primary_key=True)
-    ability = db.Column(db.String(50), nullable=False)
-    pokemon_id = db.Column(db.Integer, db.ForeignKey('pokemon.id'))
-    
-class stat(db.Model):
+class Stat(db.Model):
     __tablename__='stat'
     id = db.Column(db.Integer, primary_key=True)
     hp = db.Column(db.Integer, nullable=False)
@@ -49,10 +44,10 @@ class stat(db.Model):
     special_defense = db.Column(db.Integer, nullable=False)
     speed = db.Column(db.Integer, nullable=False)
     pokemon_id = db.Column(db.Integer, db.ForeignKey('pokemon.id'))
-    pokemon = db.relationship('pokemon')
-    
-class Type(db.Model):
-    __tablename__='type'
+
+class Favorite(db.Model):
+    __tablename__='favorite'
     id = db.Column(db.Integer, primary_key=True)
-    type = db.Column(db.String(50), nullable=False)
-    pokemon_id = db.Column(db.Integer, db.ForeignKey('pokemon.id'))
+    pokemon_id = db.Column(db.Integer, db.ForeignKey('pokemon'))
+    name = db.Column(db.String(50), nullable=False)
+    id_user = db.Column(db.Integer, db.ForeignKey('user.id'))
