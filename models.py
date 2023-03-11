@@ -9,6 +9,7 @@ class User(db.Model):
     last_name = db.Column(db.String(50), nullable=False)
     password = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String(50), nullable=False)
+    favorite = db.relationship("Favorite")
     
     def serialize(self):
         return {
@@ -23,7 +24,8 @@ class Pokemon(db.Model):
     __tablename__='pokemon'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
-    
+    ability = db.relationship("Ability")
+    type = db.relationship("Type")
     def serialize(self):
         return {
             "id": self.id,
@@ -93,3 +95,19 @@ class Stat(db.Model):
             "speed": self.speed,
             "pokemon_id": self.pokemon_id
         }
+
+class Favorite(db.Model):
+    __tablename__='favorite'
+    id = db.Column(db.Integer, primary_key=True)
+    pokemon_id = db.Column(db.Integer, db.ForeignKey('pokemon.id'))
+    name = db.Column(db.String(50), nullable=False)
+    id_user = db.Column(db.Integer, db.ForeignKey('user.id'))
+    
+    def serialize(self):
+        return {
+            "id": self.id,
+            "pokemon_id": self.pokemon_id,
+            "name": self.name,
+            "id_user": self.id_user            
+        }
+    
