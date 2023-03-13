@@ -345,6 +345,17 @@ def update_favorite(id):
     return jsonify("Favorite no encontrado"), 404
 
 
+# GET
+
+@app.route("/favorite/user/<int:user_id>", methods=["GET"])
+def get_favorite_user(user_id):
+    favorites = Favorite.query.filter_by(id_user=user_id).all()
+    result = []
+    for favorite in favorites:
+        result.append(favorite.serialize())
+    return jsonify(result)
+
+
 with app.app_context():
     db.create_all()
 
